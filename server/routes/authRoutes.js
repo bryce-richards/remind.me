@@ -6,16 +6,11 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignIn = passport.authenticate('local', { session: false });
 
 module.exports = app => {
-  app.get('/', requireAuth, (req, res) => {
-    res.redirect('/dashboard');
-  });
+  app.get('/api/user', requireAuth, authController.getUser);
 
   app.post('/signin', requireSignIn, authController.signIn);
   
   app.post('/signup', authController.signUp);
 
-  app.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
-  });
+  app.get('/signout', authController.signOut);
 };

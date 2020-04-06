@@ -5,10 +5,29 @@ const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 10;
 
 const userSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  email: { type: String, unique: true, lowercase: true },
-  password: { type: String, required: true }
+  email: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    validate: {
+      validator: v => {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(v.toLowerCase());
+      },
+      message: props => `${props.value} is not a valid email address.`
+    }
+  },
+  password: { type: String, required: true },
+  phone: {
+    type: String,
+    validate: {
+      validator: v => {
+        const re = /\d{3}-\d{3}-\d{4}/;
+        return re.test(v);
+      },
+      message: props => `${props.value} is not a valid phone number.`
+    }
+  }
 });
 
 userSchema.pre('save', next => {
@@ -34,6 +53,4 @@ userSchema.methods.comparePassword = (candidatePassword, callback) => {
   });
 };
 
-const UserClass = mongoose.model('user', userSchema);
-
-module.exports = UserClass;
+mongoose.model('user', userSchema);

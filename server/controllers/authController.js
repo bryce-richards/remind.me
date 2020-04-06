@@ -1,5 +1,7 @@
 const jwt = require('jwt-simple');
-const User = require('../models/user');
+const mongoose = require('mongoose');
+
+const User = mongoose.model('user');
 
 const SECRET = process.env.secret;
 
@@ -8,6 +10,11 @@ const userToken = user => {
 
   return jwt.encode({ sub: user.id, iat: timestamp }, SECRET);
 };
+
+exports.getUser = (req, res) => {
+  const user = req.user;
+  res.send(user);
+}
 
 exports.signIn = (req, res) => {
   res.send({ token: userToken(req.user)});
@@ -39,4 +46,9 @@ exports.signUp = (req, res, next) => {
       res.json({ token: userToken(user) });
     });
   });
+
+  exports.signOut = (req, res) => {
+    req.logout();
+    res.redirect('/');
+  };
 };
