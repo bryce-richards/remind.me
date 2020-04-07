@@ -1,6 +1,6 @@
-export const USER_CREATED = '/user/created';
-export const USER_LOGGED_IN = '/user/logged_in';
-export const USER_LOGGED_OUT = '/user/logged_out';
+export const USER_SIGNED_UP = '/user/signed_up';
+export const USER_SIGNED_IN = '/user/signed_in';
+export const USER_SIGNED_OUT = '/user/signed_out';
 export const USER_REQUESTED = 'user/requested';
 
 export const REMINDER_CREATED = 'reminder/created';

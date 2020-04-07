@@ -2,7 +2,8 @@ import {
   USER_SIGNED_UP, 
   USER_SIGNED_IN, 
   USER_SIGNED_OUT, 
-  USER_REQUESTED
+  USER_REQUESTED,
+  ERROR_RECEIVED
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -15,9 +16,10 @@ const auth = (state = INITIAL_STATE, action) => {
     case USER_SIGNED_UP:
     case USER_SIGNED_IN:
     case USER_SIGNED_OUT:
-      return { ...state, token: action.payload };
+      return { token: action.payload, error: '' };
     case ERROR_RECEIVED:
       return { ...state, error: action.payload};
+    case USER_REQUESTED:
     default:
       return state;
   }

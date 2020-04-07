@@ -4,6 +4,6 @@ export const validateEmail = email => {
 };
 
 export const validatePhone = phone => {
-  const re = /\d{3}-\d{3}-\d{4}/;
+  const re = /^(?:\([2-9]\d{2}\)\ ?|[2-9]\d{2}(?:\-?|\ ?))[2-9]\d{2}[- ]?\d{4}$/;
   return re.test(phone);
 };

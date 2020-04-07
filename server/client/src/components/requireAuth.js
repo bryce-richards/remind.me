@@ -1,30 +1,25 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory, withRouter } from 'react-router-dom';
 
 export default ChildComponent => {
-  class ComposedComponent extends Component {
-    componentDidMount() {
-      this.shouldNavigateAway();
-    }
-
-    componentDidUpdate() {
-      this.shouldNavigateAway();
-    }
-
-    shouldNavigateAway() {
-      if (!this.props.auth) {
-        this.props.history.push('/');
+  const ComposedComponent = props => {
+    const token = useSelector(state => state.auth.token);
+    const history = useHistory();
+    const shouldNavigateAway = () => {
+      if (!token) {
+        history.push('/');
       }
     }
 
-    render() {
-      return <ChildComponent {...this.props} />;
-    }
+    useEffect(() => {
+      shouldNavigateAway();
+    });
+
+    return(
+      <ChildComponent {...props} />
+    );
   }
 
-  function mapStateToProps({ auth }) {
-    return { auth };
-  }
-
-  return connect(mapStateToProps)(ComposedComponent);
+  return withRouter(ComposedComponent);
 };

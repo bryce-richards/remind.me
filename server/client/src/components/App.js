@@ -1,11 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Header from './Header';
+import Landing from './Landing';
+import Dashboard from './Dashboard';
+import SignUp from './auth/SignUp';
+import SignIn from './auth/SignIn';
+import SignOut from './auth/SignOut';
+import { requestUser } from '../actions';
 
-export default ({ children }) => {
+const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(requestUser);
+  });
+
   return (
     <div>
-      <Header />
-      {children}
+      <BrowserRouter>
+        <Header />
+        <div className="container">
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/signout" component={SignOut} />
+        </div>
+      </BrowserRouter>
     </div>
   );
 };
+
+export default App;

@@ -1,7 +1,5 @@
 const jwt = require('jwt-simple');
-const mongoose = require('mongoose');
-
-const User = mongoose.model('user');
+const User = require('../models/User');
 
 const SECRET = process.env.secret;
 
@@ -12,20 +10,20 @@ const userToken = user => {
 };
 
 exports.getUser = (req, res) => {
-  const user = req.user;
+  const { user } = req;
   res.send(user);
-}
+};
 
 exports.signIn = (req, res) => {
   res.send({ token: userToken(req.user)});
 };
 
 exports.signUp = (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  
-  if (!email || !password) {
-    return res.status(422).send({ error: 'Please provide an email and password' })
+  let phone = '';
+  const { firstName, email, password } = req.body;
+
+  if (req.body.hasOwnProperty('phone')) {
+    phone = req.body.phone;
   }
 
   User.findOne({ email }, (err, existingUser) => {
@@ -36,8 +34,10 @@ exports.signUp = (req, res, next) => {
     }
 
     const user = new User({
+      firstName,
       email,
-      password
+      password,
+      phone
     });
 
     user.save(err => {
@@ -46,9 +46,4 @@ exports.signUp = (req, res, next) => {
       res.json({ token: userToken(user) });
     });
   });
-
-  exports.signOut = (req, res) => {
-    req.logout();
-    res.redirect('/');
-  };
 };

@@ -5,6 +5,8 @@ const LocalStrategy = require('passport-local');
 
 const SECRET = process.env.secret;
 
+const User = require('../models/User');
+
 // local strategy
 const localOptions = { 
   usernameField: 'email', 
@@ -41,5 +43,5 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
   });
 });
 
-passport.use(jwtLogin);
 passport.use(localLogin);
+passport.use(jwtLogin);
