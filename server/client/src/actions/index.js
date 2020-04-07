@@ -15,7 +15,7 @@ import {
 export const signUp = (formProps, callback) => async dispatch => {
   try {
     const res = await axios.post('/auth/signup', formProps);
-
+    debugger;
     dispatch({ type: USER_SIGNED_UP, payload: res.data.token });
     localStorage.setItem('token', res.data.token);
     callback();
@@ -39,7 +39,7 @@ export const signIn = (formProps, callback) => async dispatch => {
 export const signOut = callback => {
   localStorage.removeItem('token');
   callback();
-  
+
   return {
     type: USER_SIGNED_OUT,
     payload: ''

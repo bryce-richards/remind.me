@@ -3,13 +3,13 @@ const User = require('../models/User');
 
 const SECRET = process.env.secret;
 
-const userToken = user => {
+const userToken = function(user) {
   const timestamp = new Date().getTime();
 
   return jwt.encode({ sub: user.id, iat: timestamp }, SECRET);
 };
 
-exports.getUser = (req, res) => {
+exports.getUser = function(req, res) {
   const { user } = req;
   res.send(user);
 };
@@ -40,7 +40,7 @@ exports.signUp = (req, res, next) => {
       phone
     });
 
-    user.save(err => {
+    user.save(function(err) {
       if (err) { return next(err); }
 
       res.json({ token: userToken(user) });

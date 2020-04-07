@@ -15,9 +15,9 @@ const userSchema = new Schema({
   phone: String
 });
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function(next) {
   const user = this;
-
+  console.log("this: ", this);
   bcrypt.genSalt(SALT_ROUNDS, (err, salt) => {
     if (err) { throw err; }
 

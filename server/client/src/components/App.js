@@ -19,7 +19,7 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Header />
-        <div className="container">
+        <div className="container" style={{marginTop: "24px"}}>
           <Route exact path="/" component={Landing} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/signup" component={SignUp} />
