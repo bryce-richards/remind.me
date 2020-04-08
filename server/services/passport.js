@@ -12,6 +12,7 @@ const localOptions = {
   usernameField: 'email', 
   passwordField: 'password' 
 };
+
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
   User.findOne({ email }, (err, user) => {
     if (err) { return done(err); }
@@ -29,13 +30,15 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
 // jwt strategy
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-  secretOrKey: SECRET
+  secretOrKey: SECRET,
+  passReqToCallback: true
 };
-const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
+const jwtLogin = new JwtStrategy(jwtOptions, (req, payload, done) => {
   User.findById(payload.sub, (err, user) => {
     if (err) { return done(err, false); }
 
     if (user) {
+      req.user = user;
       done(null, user);
     } else {
       done(null, false);

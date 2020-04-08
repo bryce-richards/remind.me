@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react';
+import { useSelector } from 'react-redux';
 import ReminderItem from './ReminderItem';
 
 const ReminderList = () => {

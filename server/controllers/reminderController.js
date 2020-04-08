@@ -2,6 +2,7 @@ const Reminder = require('../models/Reminder');
 const moment = require('moment');
 
 exports.createReminder = async (req, res) => {
+  console.log("req: ", req);
   const { id, phone } = req.user;
   const { text, date } = req.body;
 

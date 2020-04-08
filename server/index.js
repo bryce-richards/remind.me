@@ -1,10 +1,10 @@
 const bodyParser = require('body-parser');
+const cookieSession = require('cookie-session');
 const cors = require('cors');
 const express = require('express');
 const http = require('http');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const path = require('path');
 
 require('dotenv').config({path: __dirname + '/.env'});
 
@@ -22,13 +22,11 @@ app.use(morgan('combined'));
 app.use(cors());
 app.use(bodyParser.json({ type: '*/*' }));
 
+require('./services/passport');
+
 // Routes
 require('./routes/authRoutes')(app);
 require('./routes/reminderRoutes')(app);
-
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, 'client/public', 'index.html'));
-});
 
 // Server
 const PORT = process.env.PORT || 5000;

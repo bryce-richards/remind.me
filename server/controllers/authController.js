@@ -1,10 +1,13 @@
 const jwt = require('jwt-simple');
 const User = require('../models/User');
-const formatPhone = require('../client/src/utils/helpers').formatPhone;
+
+const formatPhone = phone => {
+  return "+1" + phone.replace(/\D/g,'');
+};
 
 const SECRET = process.env.secret;
 
-const userToken = function(user) {
+const userToken = (user) => {
   const timestamp = new Date().getTime();
 
   return jwt.encode({ sub: user.id, iat: timestamp }, SECRET);
@@ -15,7 +18,7 @@ exports.getUser = function(req, res) {
   res.send(user);
 };
 
-exports.signIn = (req, res) => {
+exports.signIn = function(req, res) {
   res.send({ token: userToken(req.user)});
 };
 

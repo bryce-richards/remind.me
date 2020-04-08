@@ -8,9 +8,14 @@ const Header = () => {
   const renderLinks = () => {
     if (token) {
       return (
-        <li>
-          <Link to="/signout">Sign Out</Link>
-        </li>
+        <div>
+          <li>
+            <Link to="/reminders/new">New Reminder</Link>
+          </li>
+          <li>
+            <Link to="/signout">Sign Out</Link>
+          </li>
+        </div>
       )
     } else {
       return (

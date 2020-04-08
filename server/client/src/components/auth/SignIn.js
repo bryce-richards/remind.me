@@ -1,11 +1,13 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { useHistory } from 'react-router-dom';
 import { signIn } from '../../actions';
 import { validateEmail } from '../../utils/helpers';
 
 const SignIn = () => {
+  const errorMessage = useSelector(state => state.auth.error);
   const dispatch = useDispatch();
   const history = useHistory();
   const onFormSubmit = formProps => {
@@ -19,16 +21,16 @@ const SignIn = () => {
       <Form
         onSubmit={onFormSubmit}
         validate={values => {
-          const errors = {}
+          const errors = {};
           if (!values.email) {
-            errors.email = 'Required'
+            errors.email = 'Required';
           } else if (!validateEmail(values.email)) {
-            errors.email = 'Not a valid email address'
+            errors.email = 'Not a valid email address';
           }
           if (!values.password) {
-            errors.password = 'Required'
+            errors.password = 'Required';
           }
-          return errors
+          return errors;
         }}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
@@ -73,6 +75,9 @@ const SignIn = () => {
           </form>
         )}
       />
+      {
+        errorMessage ? <a className="btn">{errorMessage}</a> : ''
+      }
     </div>
   )
 }

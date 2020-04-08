@@ -1,11 +1,12 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { signUp } from '../../actions';
 import { validateEmail, validatePhone } from '../../utils/helpers';
 
 const SignUp = () => {
+  const errorMessage = useSelector(state => state.auth.error);
   const dispatch = useDispatch();
   const history = useHistory();
   const onFormSubmit = formProps => {
@@ -38,7 +39,7 @@ const SignUp = () => {
           } else if (!validatePhone(values.phone)) {
             errors.phone = 'Not a valid phone number';
           }
-          return errors
+          return errors;
         }}
         render={({ handleSubmit, form, submitting, pristine }) => (
           <form onSubmit={handleSubmit}>
@@ -114,6 +115,9 @@ const SignUp = () => {
           </form>
         )}
       />
+      {
+        errorMessage ? <a className="btn">{errorMessage}</a> : ''
+      }
     </div>
   )
 }

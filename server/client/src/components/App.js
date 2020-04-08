@@ -7,12 +7,13 @@ import Dashboard from './Dashboard';
 import SignUp from './auth/SignUp';
 import SignIn from './auth/SignIn';
 import SignOut from './auth/SignOut';
+import ReminderForm from './ReminderForm';
 import { requestUser } from '../actions';
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(requestUser);
+    dispatch(requestUser());
   });
 
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/signout" component={SignOut} />
+          <Route exact path="/reminders/new" component={ReminderForm} />
         </div>
       </BrowserRouter>
     </div>
