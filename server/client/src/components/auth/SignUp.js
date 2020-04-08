@@ -1,11 +1,12 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { signUp } from '../../actions';
 import { validateEmail, validatePhone } from '../../utils/helpers';
 
 const SignUp = () => {
+  const errorMessage = useSelector(state => state.auth.error);
   const dispatch = useDispatch();
   const history = useHistory();
   const onFormSubmit = formProps => {
@@ -114,6 +115,7 @@ const SignUp = () => {
           </form>
         )}
       />
+      <div>{errorMessage}</div>
     </div>
   )
 }

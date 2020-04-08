@@ -11,7 +11,6 @@ exports.getReminders = async function (req, res) {
 };
 
 exports.createReminder = async function(req, res) {
-  console.log("create req: ", req);
   const { id, phone } = req.user;
   const { text, date } = req.body;
 
@@ -29,8 +28,8 @@ exports.createReminder = async function(req, res) {
 };
 
 exports.deleteReminder = async function(req, res) {
-  const { id } = req.user;
-  const { _id } = req.body;
+  const userId = req.user._id;
+  const reminderId = req.body.id;
 
   const deleted = await Reminder.deleteOne({
     _id,

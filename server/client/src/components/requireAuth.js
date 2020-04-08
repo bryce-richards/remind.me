@@ -10,7 +10,7 @@ export default ChildComponent => {
       if (!token) {
         history.push('/');
       }
-    }
+    };
 
     useEffect(() => {
       shouldNavigateAway();

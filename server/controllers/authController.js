@@ -5,23 +5,30 @@ const SECRET = process.env.secret;
 
 const formatPhone = phone => {
   return "+1" + phone.replace(/\D/g,'');
-}
+};
 
-const userToken = function(user) {
+const userToken = (user) => {
   const timestamp = new Date().getTime();
 
   return jwt.encode({ sub: user.id, iat: timestamp }, SECRET);
 };
 
-exports.getUser = function(req, res) {
-  const { user } = req;
-  res.send(user);
-  // res.send(user);
+exports.getUser = (req, res) => {
+  const { firstName } = req.user;
+
+  res.send({ 
+    firstName,
+    token: userToken(req.user)
+  });
 };
 
 exports.signIn = (req, res) => {
-  console.log("req: ", req.user);
-  res.send({ token: userToken(req.user)});
+  const { firstName } = req.user;
+
+  res.send({ 
+    firstName,
+    token: userToken(req.user)
+  });
 };
 
 exports.signUp = (req, res, next) => {
@@ -45,7 +52,10 @@ exports.signUp = (req, res, next) => {
     user.save(function(err) {
       if (err) { return next(err); }
 
-      res.json({ token: userToken(user) });
+      res.send({ 
+        firstName,
+        token: userToken(user) 
+      });
     });
   });
 };

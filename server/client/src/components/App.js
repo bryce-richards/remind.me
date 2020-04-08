@@ -8,14 +8,14 @@ import SignUp from './auth/SignUp';
 import SignIn from './auth/SignIn';
 import SignOut from './auth/SignOut';
 import ReminderForm from './ReminderForm';
-import { requestUser } from '../actions';
+import { getUser } from '../actions';
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(requestUser());
+    dispatch(getUser());
   });
-  
+
   return (
     <div>
       <BrowserRouter>

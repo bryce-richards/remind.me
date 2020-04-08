@@ -4,19 +4,37 @@ import {
   USER_SIGNED_UP,
   USER_SIGNED_IN,
   USER_SIGNED_OUT,
-  USER_REQUESTED,
+  USER_FETCHED,
   REMINDER_CREATED,
   REMINDER_DELETED,
   REMINDER_UPDATED,
-  REMINDERS_REQUESTED,
+  REMINDERS_FETCHED,
   ERROR_RECEIVED
 } from './types';
+
+const getToken = () => {
+  return localStorage.getItem('token');
+};
+
+export const getUser = () => async dispatch => {
+  try {
+    const res = await axios.get('/auth/user', {
+      headers: { authorization: getToken() }
+    });
+
+    const { firstName } = res.data;
+
+    dispatch({ type: USER_FETCHED, payload: firstName });
+  } catch (err) {
+    dispatch({ type: ERROR_RECEIVED, payload: 'User already exists'});
+  }
+};
 
 export const signUp = (formProps, callback) => async dispatch => {
   try {
     const res = await axios.post('/auth/signup', formProps);
 
-    dispatch({ type: USER_SIGNED_UP, payload: res.data.token });
+    dispatch({ type: USER_SIGNED_UP, payload: res.data });
     localStorage.setItem('token', res.data.token);
     callback();
   } catch (err) {
@@ -28,7 +46,7 @@ export const signIn = (formProps, callback) => async dispatch => {
   try {
     const res = await axios.post('/auth/signin', formProps);
 
-    dispatch({ type: USER_SIGNED_IN, payload: res.data.token });
+    dispatch({ type: USER_SIGNED_IN, payload: res.data });
     localStorage.setItem('token', res.data.token);
     callback();
   } catch (err) {
@@ -46,21 +64,21 @@ export const signOut = callback => {
   };
 };
 
-export const requestUser = () => async dispatch => {
-  const res = await axios.get('/auth/user');
-
-  dispatch({ type: USER_REQUESTED, payload: res.data });
+export const getReminders = () => async dispatch => {
+  
 };
 
 export const createReminder = (formProps, callback) => async dispatch => {
   try {
-    console.log("FORM: ", formProps);
-    const res = await axios.post('/api/reminders', formProps);
+
+    const res = await axios.post('/api/reminders', formProps, {
+      headers: { authorization: getToken() }
+    });
 
     dispatch({ type: REMINDER_CREATED, payload: res.data });
     callback();
   } catch(err) {
-    dispatch({ type: ERROR_RECEIVED, payload: ''});
+    dispatch({ type: ERROR_RECEIVED, payload: '' });
   }
 };
 
@@ -69,9 +87,5 @@ export const deleteReminder = () => async dispatch => {
 };
 
 export const updateReminder = (formProps, callback) => async dispatch => {
-
-};
-
-export const getReminders = () => async dispatch => {
 
 };

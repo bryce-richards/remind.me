@@ -13,10 +13,11 @@ const reminders = (state = INITIAL_STATE, action) => {
       return [
         ...state,
         {
-          id: action.id,
+          id: action._id,
           completed: false,
           text: action.text,
-          due: action.due
+          due: action.due,
+          phone: action.phone
         }
       ];
     case REMINDER_DELETED:

@@ -14,22 +14,30 @@ require('./models/User');
 require('./models/Reminder');
 require('./services/passport');
 
+const authRoutes = require('./routes/authRoutes');
+const reminderRoutes = require('./routes/reminderRoutes');
+
 // Database
 mongoose.connect(MONGO_URI, { useNewUrlParser: true });
 
 // App
 const app = express();
-
 app.use(morgan('combined'));
 app.use(cors());
 app.use(bodyParser.json({ type: '*/*' }));
 
 // Routes
-const authRoutes = require('./routes/authRoutes');
-const reminderRoutes = require('./routes/reminderRoutes');
-
 app.use('/auth', authRoutes);
 app.use('/api', passport.authenticate('jwt', { session : false }), reminderRoutes);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  const path = require('path');
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 // Server
 const PORT = process.env.PORT || 8000;
