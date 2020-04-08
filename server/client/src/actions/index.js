@@ -15,7 +15,7 @@ import {
 export const signUp = (formProps, callback) => async dispatch => {
   try {
     const res = await axios.post('/auth/signup', formProps);
-    debugger;
+
     dispatch({ type: USER_SIGNED_UP, payload: res.data.token });
     localStorage.setItem('token', res.data.token);
     callback();
@@ -26,7 +26,7 @@ export const signUp = (formProps, callback) => async dispatch => {
 
 export const signIn = (formProps, callback) => async dispatch => {
   try {
-    const res = await axios.post('auth/signin', formProps);
+    const res = await axios.post('/auth/signin', formProps);
 
     dispatch({ type: USER_SIGNED_IN, payload: res.data.token });
     localStorage.setItem('token', res.data.token);
@@ -53,12 +53,14 @@ export const requestUser = () => async dispatch => {
 };
 
 export const createReminder = (formProps, callback) => async dispatch => {
-  const res = await axios.post('/api/reminders', {});
+  try {
+    console.log("FORM: ", formProps);
+    const res = await axios.post('/api/reminders', formProps);
 
-  if (res.data.error) {
-    dispatch({ type: ERROR_RECEIVED, payload: res.data.error });
-  } else {
-    dispatch({ type: REMINDER_CREATED, payload: res.data.reminder});
+    dispatch({ type: REMINDER_CREATED, payload: res.data });
+    callback();
+  } catch(err) {
+    dispatch({ type: ERROR_RECEIVED, payload: ''});
   }
 };
 

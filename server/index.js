@@ -4,15 +4,17 @@ const express = require('express');
 const http = require('http');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const path = require('path');
+const passport = require('passport');
 
 require('dotenv').config({path: __dirname + '/.env'});
 
-// Database
-require('./models/User');
-require('./models/Reminder');
 const MONGO_URI = process.env.mongoURI;
 
+require('./models/User');
+require('./models/Reminder');
+require('./services/passport');
+
+// Database
 mongoose.connect(MONGO_URI, { useNewUrlParser: true });
 
 // App
@@ -23,15 +25,14 @@ app.use(cors());
 app.use(bodyParser.json({ type: '*/*' }));
 
 // Routes
-require('./routes/authRoutes')(app);
-require('./routes/reminderRoutes')(app);
+const authRoutes = require('./routes/authRoutes');
+const reminderRoutes = require('./routes/reminderRoutes');
 
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, 'client/public', 'index.html'));
-});
+app.use('/auth', authRoutes);
+app.use('/api', passport.authenticate('jwt', { session : false }), reminderRoutes);
 
 // Server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 const server = http.createServer(app);
 server.listen(PORT, () => {
   console.log('Listening at PORT: ', PORT);

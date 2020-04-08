@@ -1,12 +1,14 @@
-const requireLogin = require('../middlewares/requireLogin');
+const express = require('express');
 const reminderController = require('../controllers/reminderController');
 
-module.exports = app => {
-  app.post('/api/reminders', requireLogin, reminderController.createReminder);
+const router = express.Router();
 
-  app.get('/api/reminders', requireLogin, reminderController.getReminders);
+router.post('/reminders', reminderController.createReminder);
 
-  app.delete('/api/reminders/:reminder_id', requireLogin, reminderController.deleteReminder);
+router.get('/reminders', reminderController.getReminders);
 
-  app.put('/api/reminders/:reminder_id', requireLogin, reminderController.updateReminder);
-};
+router.delete('/reminders/:reminder_id', reminderController.deleteReminder);
+
+router.put('/reminders/:reminder_id', reminderController.updateReminder);
+
+module.exports = router;

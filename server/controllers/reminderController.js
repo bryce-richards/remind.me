@@ -1,7 +1,17 @@
 const Reminder = require('../models/Reminder');
 const moment = require('moment');
 
-exports.createReminder = async (req, res) => {
+exports.getReminders = async function (req, res) {
+  const { id } = req.user;
+  const reminders = await Reminder.find(
+    { _user: id }
+  );
+
+  res.send(reminders);
+};
+
+exports.createReminder = async function(req, res) {
+  console.log("create req: ", req);
   const { id, phone } = req.user;
   const { text, date } = req.body;
 
@@ -13,12 +23,12 @@ exports.createReminder = async (req, res) => {
     _user: id
   });
   
-  const reminder = newReminder.save();
+  const reminder = await newReminder.save();
 
   res.send(reminder);
 };
 
-exports.deleteReminder = async (req, res) => {
+exports.deleteReminder = async function(req, res) {
   const { id } = req.user;
   const { _id } = req.body;
 
@@ -30,7 +40,7 @@ exports.deleteReminder = async (req, res) => {
   res.send({ deleted });
 };
 
-exports.updateReminder = async (req, res) => {
+exports.updateReminder = async function(req, res) {
   const { id } = req.user;
   const { _id, text, date } = req.body;
 
@@ -47,13 +57,4 @@ exports.updateReminder = async (req, res) => {
   );
 
   res.send(updated);
-};
-
-exports.getReminders = async (req, res) => {
-  const { id } = req.user;
-  const reminders = await Reminder.find(
-    { _user: id }
-  );
-
-  res.send(reminders);
 };

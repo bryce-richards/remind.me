@@ -7,7 +7,3 @@ export const validatePhone = phone => {
   const re = /^\(?[\d]{3}\)?[\s-]?[\d]{3}[\s-]?[\d]{4}$/;
   return re.test(phone);
 };
-
-export const formatPhone = phone => {
-  return "+1" + phone.replace(/\D/g,'');
-}
