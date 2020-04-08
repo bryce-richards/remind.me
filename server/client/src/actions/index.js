@@ -52,8 +52,8 @@ export const requestUser = () => async dispatch => {
   dispatch({ type: USER_REQUESTED, payload: res.data });
 };
 
-export const createReminder = () => async dispatch => {
-  const res = await axios.post('/api/reminders');
+export const createReminder = (formProps, callback) => async dispatch => {
+  const res = await axios.post('/api/reminders', {});
 
   if (res.data.error) {
     dispatch({ type: ERROR_RECEIVED, payload: res.data.error });
@@ -66,7 +66,7 @@ export const deleteReminder = () => async dispatch => {
 
 };
 
-export const updateReminder = () => async dispatch => {
+export const updateReminder = (formProps, callback) => async dispatch => {
 
 };
 

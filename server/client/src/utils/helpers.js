@@ -4,6 +4,10 @@ export const validateEmail = email => {
 };
 
 export const validatePhone = phone => {
-  const re = /^(?:\([2-9]\d{2}\)\ ?|[2-9]\d{2}(?:\-?|\ ?))[2-9]\d{2}[- ]?\d{4}$/;
+  const re = /^\(?[\d]{3}\)?[\s-]?[\d]{3}[\s-]?[\d]{4}$/;
   return re.test(phone);
 };
+
+export const formatPhone = phone => {
+  return "+1" + phone.replace(/\D/g,'');
+}

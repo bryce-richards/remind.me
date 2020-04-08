@@ -55,11 +55,15 @@ const SignIn = () => {
               )}
             </Field>
             <div className="buttons">
-              <button type="submit" disabled={submitting}>
+              <button 
+                type="submit" 
+                className="waves-effect waves-light btn" 
+                disabled={submitting}>
                 Submit
               </button>
               <button
                 type="button"
+                className="waves-effect waves-light btn-flat" 
                 onClick={form.reset}
                 disabled={submitting || pristine}
               >

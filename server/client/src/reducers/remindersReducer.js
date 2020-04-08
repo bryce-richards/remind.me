@@ -13,7 +13,7 @@ const reminders = (state = INITIAL_STATE, action) => {
       return [
         ...state,
         {
-          id: state.reduce((maxId, reminder) => Math.max(reminder.id, maxId), -1) + 1,
+          id: action.id,
           completed: false,
           text: action.text,
           due: action.due

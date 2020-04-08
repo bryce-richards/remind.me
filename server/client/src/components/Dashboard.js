@@ -1,5 +1,6 @@
 import React from 'react';
 import requireAuth from './requireAuth';
+import ReminderList from './ReminderList';
 
 const Dashboard = () => {
   return (

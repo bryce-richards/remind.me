@@ -33,7 +33,9 @@ const SignUp = () => {
           } else if (values.confirm !== values.password) {
             errors.confirm = 'Password must match';
           }
-          if (values.phone && !validatePhone(values.phone)) {
+          if (!values.phone) {
+            errors.phone = 'Required';
+          } else if (!validatePhone(values.phone)) {
             errors.phone = 'Not a valid phone number';
           }
           return errors
@@ -87,18 +89,22 @@ const SignUp = () => {
             >
               {({ input, meta }) => (
                 <div>
-                  <label>Phone (optional)</label>
-                  <input {...input} type="text" placeholder="123-456-7890" />
+                  <label>Phone (to receive SMS message)</label>
+                  <input {...input} type="tel" placeholder="555-555-5555" />
                   {meta.error && meta.touched && <span>{meta.error}</span>}
                 </div>
               )}
             </Field>
             <div className="buttons">
-              <button type="submit" disabled={submitting}>
+              <button 
+                type="submit" 
+                className="waves-effect waves-light btn" 
+                disabled={submitting}>
                 Submit
               </button>
               <button
                 type="button"
+                className="waves-effect waves-light btn-flat"
                 onClick={form.reset}
                 disabled={submitting || pristine}
               >

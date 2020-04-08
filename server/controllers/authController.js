@@ -1,5 +1,6 @@
 const jwt = require('jwt-simple');
 const User = require('../models/User');
+const formatPhone = require('../client/src/utils/helpers').formatPhone;
 
 const SECRET = process.env.secret;
 
@@ -19,12 +20,8 @@ exports.signIn = (req, res) => {
 };
 
 exports.signUp = (req, res, next) => {
-  let phone = '';
-  const { firstName, email, password } = req.body;
-
-  if (req.body.hasOwnProperty('phone')) {
-    phone = req.body.phone;
-  }
+  const { firstName, email, password, phone } = req.body;
+  const phoneNumber = formatPhone(phone);
 
   User.findOne({ email }, (err, existingUser) => {
     if (err) { return next(err); }
@@ -37,7 +34,7 @@ exports.signUp = (req, res, next) => {
       firstName,
       email,
       password,
-      phone
+      phone: phoneNumber
     });
 
     user.save(function(err) {
