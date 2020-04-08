@@ -7,8 +7,8 @@ router.post('/reminders', reminderController.createReminder);
 
 router.get('/reminders', reminderController.getReminders);
 
-router.delete('/reminders/:reminder_id', reminderController.deleteReminder);
+router.delete('/reminders/', reminderController.deleteReminder);
 
-router.put('/reminders/:reminder_id', reminderController.updateReminder);
+router.put('/reminders/', reminderController.updateReminder);
 
 module.exports = router;

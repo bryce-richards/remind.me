@@ -2,7 +2,7 @@ const Reminder = require('../models/Reminder');
 const moment = require('moment');
 
 exports.getReminders = async function (req, res) {
-  const { id } = req.user;
+  const id = req.user._id;
   const reminders = await Reminder.find(
     { _user: id }
   );
@@ -12,12 +12,12 @@ exports.getReminders = async function (req, res) {
 
 exports.createReminder = async function(req, res) {
   const { id, phone } = req.user;
-  const { text, date } = req.body;
+  const { text, date, time } = req.body;
 
-  const due = moment(date).utc();
+  const combined = moment(date + " " + time).utc();
   const newReminder = new Reminder({
     text,
-    due,
+    due: combined,
     phone,
     _user: id
   });
@@ -28,12 +28,13 @@ exports.createReminder = async function(req, res) {
 };
 
 exports.deleteReminder = async function(req, res) {
+  console.log(req.query);
   const userId = req.user._id;
-  const reminderId = req.body.id;
+  const reminderId = req.query.id;
 
   const deleted = await Reminder.deleteOne({
-    _id,
-    _user: id
+    _id: reminderId,
+    _user: userId
   });
 
   res.send({ deleted });

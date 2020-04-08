@@ -9,6 +9,7 @@ const TWILIO_PHONE_NUMBER = process.env.twilioPhoneNumber;
 
 const reminderSchema = new Schema({
   text: { type: String, required: true },
+  completed: { type: Boolean, default: false },
   due: { type: Date, required: true },
   phone: String,
   _user: { type: Schema.Types.ObjectId, ref: 'User' }

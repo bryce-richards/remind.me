@@ -1,35 +1,35 @@
+import _ from 'lodash';
 import {
+  REMINDERS_FETCHED,
   REMINDER_CREATED,
   REMINDER_DELETED,
-  REMINDER_UPDATED,
-  REMINDERS_REQUESTED 
+  REMINDER_UPDATED
 } from '../actions/types';
 
 const INITIAL_STATE = [];
 
 const reminders = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case REMINDERS_FETCHED:
+      return _.sortBy(action.payload, ['due']);
     case REMINDER_CREATED:
-      return [
-        ...state,
-        {
-          id: action._id,
-          completed: false,
-          text: action.text,
-          due: action.due,
-          phone: action.phone
-        }
-      ];
+      return _.sortBy(
+        [ ...state, action.payload], 
+      ['due']);
     case REMINDER_DELETED:
-      return state.filter(reminder =>
-        reminder.id !== action.id
-      );
+      return _.orderBy(
+        _.filter(state, reminder => (
+            reminder._id !== action.id
+        )), 
+      ['due']);
     case REMINDER_UPDATED:
-      return state.map(reminder =>
-        reminder.id === action.id ?
-          { ...reminder, text: action.text } :
+      return _.sortBy(
+        _.map(state, reminder => (
+          reminder._id === action.id ?
+          { ...reminder, ...action.payload } :
           reminder
-      );
+        )),
+      ['due']);
     default:
       return state;
   }

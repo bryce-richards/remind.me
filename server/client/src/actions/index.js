@@ -65,27 +65,52 @@ export const signOut = callback => {
 };
 
 export const getReminders = () => async dispatch => {
-  
+  try {
+    const res = await axios.get('/api/reminders', {
+      headers: { authorization: getToken() }
+    });
+
+    dispatch({ type: REMINDERS_FETCHED, payload: res.data });
+  } catch (err) {
+    dispatch({ type: ERROR_RECEIVED, payload: 'Could not fetch reminders' });
+  }
 };
 
 export const createReminder = (formProps, callback) => async dispatch => {
   try {
-
     const res = await axios.post('/api/reminders', formProps, {
       headers: { authorization: getToken() }
     });
 
     dispatch({ type: REMINDER_CREATED, payload: res.data });
     callback();
-  } catch(err) {
-    dispatch({ type: ERROR_RECEIVED, payload: '' });
+  } catch (err) {
+    dispatch({ type: ERROR_RECEIVED, payload: 'Could not create reminder' });
   }
 };
 
-export const deleteReminder = () => async dispatch => {
-
+export const deleteReminder = id => async dispatch => {
+  try {
+    const res = await axios.delete('/api/reminders', {
+      params: { id: id },
+      headers: { authorization: getToken() }
+    });
+    
+    dispatch({ type: REMINDER_DELETED, payload: id });
+  } catch (err) {
+    dispatch({ type: ERROR_RECEIVED, payload: 'Could not delete reminder' });
+  }
 };
 
 export const updateReminder = (formProps, callback) => async dispatch => {
+  try {
+    const res = await axios.put('/api/reminders', formProps, {
+      headers: { authorization: getToken() }
+    });
 
+    dispatch({ type: REMINDER_CREATED, payload: res.data });
+    callback();
+  } catch (err) {
+    dispatch({ type: ERROR_RECEIVED, payload: 'Could not create reminder' });
+  }
 };
