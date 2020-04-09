@@ -30,7 +30,7 @@ export const getUser = () => async dispatch => {
 
     dispatch({ type: USER_FETCHED, payload: firstName });
   } catch (err) {
-    dispatch({ type: ERROR_RECEIVED, payload: 'User already exists'});
+    dispatch({ type: ERROR_RECEIVED, payload: ''});
   }
 };
 
