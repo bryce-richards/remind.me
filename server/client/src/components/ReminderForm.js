@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { createReminder } from '../actions';
@@ -77,14 +78,11 @@ const ReminderForm = () => {
                 disabled={submitting}>
                 Submit
               </button>
-              <button
-                type="button"
+              <Link 
                 className="waves-effect waves-light btn-flat" 
-                onClick={form.reset}
-                disabled={submitting || pristine}
-              >
-                Reset
-              </button>
+                to="/dashboard">
+                Cancel
+              </Link>
             </div>
           </form>
         )}

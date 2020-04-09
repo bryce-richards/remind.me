@@ -1,5 +1,5 @@
 const CronJob = require('cron').CronJob;
-const notificationsWorker = require('./workers/notificationsWorker');
+const notificationsWorker = require('../workers/notificationsWorker');
 
 const schedulerFactory = () => {
   return {

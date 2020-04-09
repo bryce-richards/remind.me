@@ -14,14 +14,14 @@ exports.createReminder = async function(req, res) {
   const { id, phone } = req.user;
   const { text, date, time } = req.body;
 
-  const combined = moment(date + " " + time).utc();
+  const combined = new Date(date + " " + time);
   const newReminder = new Reminder({
     text,
     due: combined,
     phone,
     _user: id
   });
-  
+  console.log("combined: ", combined);
   const reminder = await newReminder.save();
 
   res.send(reminder);
@@ -31,8 +31,11 @@ exports.updateReminder = async function(req, res) {
   const userId = req.user;
   const reminderId = req.body.id;
   const { text, date, time } = req.body;
-  const combined = moment(date + " " + time).utc();
+  console.log("time: ", time);
+  console.log("date: ", date);
+  const combined = new Date(date + " " + time);
 
+  console.log("combined: ", combined);
   const updated = await Reminder.findOneAndUpdate(
     { _id: reminderId, _user: userId }, 
     { text, due: combined },

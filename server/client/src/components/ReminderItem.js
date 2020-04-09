@@ -4,7 +4,7 @@ import moment from 'moment';
 import { updateReminder, deleteReminder } from '../actions';
 
 const formatDate = date => {
-  return moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
+  return moment(date).format("dddd, MMMM Do YYYY, h:mm A");
 };
 
 const ReminderItem = ({ reminder }) => {

@@ -16,6 +16,7 @@ require('./services/passport');
 
 const authRoutes = require('./routes/authRoutes');
 const reminderRoutes = require('./routes/reminderRoutes');
+const scheduler = require('./services/scheduler');
 
 // Database
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false });
@@ -45,3 +46,5 @@ const server = http.createServer(app);
 server.listen(PORT, () => {
   console.log('Listening at PORT: ', PORT);
 });
+
+scheduler.start();

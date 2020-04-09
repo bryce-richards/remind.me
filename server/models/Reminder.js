@@ -14,12 +14,14 @@ const reminderSchema = new Schema({
   _user: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
+// check if due date matches current time
 reminderSchema.methods.requiresNotification = function(date) {
-  return moment(date).utc() === this.due;
+  const now = moment(date).format("dddd, MMMM Do YYYY, h:mm A");
+  const due = moment(this.due).format("dddd, MMMM Do YYYY, h:mm A");
+  return now === due;
 };
 
 reminderSchema.statics.sendNotifications = function(callback) {
-  // now
   const searchDate = new Date();
   Reminder
     .find()
@@ -40,15 +42,12 @@ reminderSchema.statics.sendNotifications = function(callback) {
             const options = {
                 to: `+ ${reminder.phone}`,
                 from: TWILIO_PHONE_NUMBER,
-                /* eslint-disable max-len */
-                body: `${reminder.text}`,
-                /* eslint-enable max-len */
+                body: `Your Reminder: ${reminder.text}`,
             };
 
             // Send the message!
             client.messages.create(options, function(err, response) {
                 if (err) {
-                    // Just log it for now
                     console.error(err);
                 } else {
                     // Log the last few digits of a phone number
@@ -68,4 +67,5 @@ reminderSchema.statics.sendNotifications = function(callback) {
     }
 };
 
-module.exports = mongoose.model('reminder', reminderSchema);
+const Reminder = mongoose.model('reminder', reminderSchema);
+module.exports = Reminder;
