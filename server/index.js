@@ -8,7 +8,7 @@ const passport = require('passport');
 
 require('dotenv').config({path: __dirname + '/.env'});
 
-const MONGO_URI = process.env.mongoURI;
+const MONGO_URI = process.env.MONGO_URI;
 
 // Models
 require('./models/User');

@@ -3,9 +3,7 @@ const { Schema } = mongoose;
 const Twilio = require('twilio');
 const moment = require('moment');
 
-const TWILIO_ACCOUNT_SID = process.env.twilioAccountSID;
-const TWILIO_AUTH_TOKEN = process.env.twilioAuthToken;
-const TWILIO_PHONE_NUMBER = process.env.twilioPhoneNumber;
+const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER } = process.env;
 
 const reminderSchema = new Schema({
   text: { type: String, required: true },

@@ -1,7 +1,7 @@
 const jwt = require('jwt-simple');
 const User = require('../models/User');
 
-const SECRET = process.env.secret;
+const SECRET = process.env.SECRET;
 
 const formatPhone = phone => {
   // remove any character between numers and prepend "+1" (U.S. number)
