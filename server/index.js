@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
-require('dotenv').config({path: __dirname + '/.env'});
+(require('dotenv').config({ silent: process.env.NODE_ENV === 'production' }));
 
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -40,14 +40,13 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(__dirname, '../client/build'));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/build/', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/build/', 'index.html'));
   });
 }
 
 // Server
 const PORT = process.env.PORT || 5000;
-const server = http.createServer(app);
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log('Listening at PORT: ', PORT);
 });
 
