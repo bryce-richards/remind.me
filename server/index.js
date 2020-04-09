@@ -10,13 +10,17 @@ require('dotenv').config({path: __dirname + '/.env'});
 
 const MONGO_URI = process.env.mongoURI;
 
+// Models
 require('./models/User');
 require('./models/Reminder');
-require('./services/passport');
 
+// Services
+require('./services/passport');
+const scheduler = require('./services/scheduler');
+
+// Routes
 const authRoutes = require('./routes/authRoutes');
 const reminderRoutes = require('./routes/reminderRoutes');
-const scheduler = require('./services/scheduler');
 
 // Database
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false });
@@ -27,8 +31,8 @@ app.use(morgan('combined'));
 app.use(cors());
 app.use(bodyParser.json({ type: '*/*' }));
 
-// Routes
 app.use('/auth', authRoutes);
+// authenticate api routes with jwt
 app.use('/api', passport.authenticate('jwt', { session : false }), reminderRoutes);
 
 if (process.env.NODE_ENV === 'production') {
@@ -47,4 +51,5 @@ server.listen(PORT, () => {
   console.log('Listening at PORT: ', PORT);
 });
 
+// start cron job
 scheduler.start();

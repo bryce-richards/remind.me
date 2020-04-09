@@ -15,6 +15,7 @@ const userSchema = new Schema({
   phone: String
 });
 
+// before saving, generate hashed password
 userSchema.pre('save', function(next) {
   const user = this;
   bcrypt.genSalt(SALT_ROUNDS, (err, salt) => {
@@ -23,12 +24,14 @@ userSchema.pre('save', function(next) {
     bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) { return next(err); }
 
+      // save hashed password as user password
       user.password = hash;
       next();
     });
   });
 });
 
+// compare passwords upon sign in
 userSchema.methods.comparePassword = function(candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     if (err) { return callback(err); }

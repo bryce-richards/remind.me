@@ -9,8 +9,10 @@ const SignUp = () => {
   const errorMessage = useSelector(state => state.auth.error);
   const dispatch = useDispatch();
   const history = useHistory();
+  // trigger user sign in upon form submit
   const onFormSubmit = formProps => {
     dispatch(signUp(formProps, () => {
+      // if successful, navigate to dashboard
       history.push('/dashboard');
     }));
   };

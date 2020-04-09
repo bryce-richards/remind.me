@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
+  // check if token exists
   const token = useSelector(state => state.auth.token);
 
   const renderLinks = () => {
+    // if user is authorized
     if (token) {
+      // render 'new reminder' and 'sign out' links
       return (
         <div>
           <li>
@@ -17,7 +20,9 @@ const Header = () => {
           </li>
         </div>
       )
+    // if user is not authorized
     } else {
+      // render 'sign up' and 'sign in' links
       return (
         <div>
           <li>

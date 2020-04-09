@@ -12,16 +12,20 @@ import {
   ERROR_RECEIVED
 } from './types';
 
+// NOTE: all jwt routes must include the authorization header with the stored token
+
 const getToken = () => {
+  // return locally stored token
   return localStorage.getItem('token');
 };
 
+// api call to fetch user data
+// send user data to auth reducer
 export const getUser = () => async dispatch => {
   try {
     const res = await axios.get('/auth/user', {
       headers: { authorization: getToken() }
     });
-
     const { firstName } = res.data;
 
     dispatch({ type: USER_FETCHED, payload: firstName });
@@ -30,6 +34,8 @@ export const getUser = () => async dispatch => {
   }
 };
 
+// api call to sign up new user
+// send new user data to auth reducer
 export const signUp = (formProps, callback) => async dispatch => {
   try {
     const res = await axios.post('/auth/signup', formProps);
@@ -42,6 +48,8 @@ export const signUp = (formProps, callback) => async dispatch => {
   }
 };
 
+// api call to sign in new user
+// send user data to auth reducer
 export const signIn = (formProps, callback) => async dispatch => {
   try {
     const res = await axios.post('/auth/signin', formProps);
@@ -54,6 +62,8 @@ export const signIn = (formProps, callback) => async dispatch => {
   }
 };
 
+// remove locally stored token and trigger callback
+// send empty payload to auth reducer
 export const signOut = callback => {
   localStorage.removeItem('token');
   callback();
@@ -64,6 +74,8 @@ export const signOut = callback => {
   };
 };
 
+// api call to fetch all reminders for current user
+// send reminders to reminder reducer
 export const getReminders = () => async dispatch => {
   try {
     const res = await axios.get('/api/reminders', {
@@ -76,6 +88,8 @@ export const getReminders = () => async dispatch => {
   }
 };
 
+// api call to fetch all reminders for current user
+// send reminders to reminder reducer
 export const createReminder = (formProps, callback) => async dispatch => {
   try {
     const res = await axios.post('/api/reminders', formProps, {
@@ -89,6 +103,8 @@ export const createReminder = (formProps, callback) => async dispatch => {
   }
 };
 
+// api call to update reminder
+// send updated reminder to reminder reducer
 export const updateReminder = reminder => async dispatch => {
   try {
     const res = await axios.put('/api/reminders', reminder, {
@@ -101,6 +117,8 @@ export const updateReminder = reminder => async dispatch => {
   }
 };
 
+// api call to delete reminder with given id
+// send id to reminder reducer
 export const deleteReminder = id => async dispatch => {
   try {
     const res = await axios.delete('/api/reminders', {

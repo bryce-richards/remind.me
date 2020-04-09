@@ -6,8 +6,10 @@ import { signOut } from '../../actions';
 const SignOut = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  // upon load, trigger sign out
   useEffect(() => {
     dispatch(signOut(() => {
+      // if successful, navigate to landing page
       history.push('/');
     }));
   });

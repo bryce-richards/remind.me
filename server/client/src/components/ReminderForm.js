@@ -9,8 +9,10 @@ import requireAuth from './requireAuth';
 const ReminderForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  // trigger reminder creation upon form submit
   const onFormSubmit = formProps => {
     dispatch(createReminder(formProps, () => {
+      // if successful, navigate to dashboard
       history.push('/dashboard');
     }));
   };
@@ -19,6 +21,7 @@ const ReminderForm = () => {
     <div style={{margin: "0 auto 0 auto", width: "70%"}}>
       <Form
         onSubmit={onFormSubmit}
+        // validate form values
         validate={values => {
           const errors = {};
           if (!values.text) {
@@ -32,8 +35,9 @@ const ReminderForm = () => {
           }
           return errors;
         }}
-        render={({ handleSubmit, form, submitting, pristine }) => (
+        render={({ handleSubmit, submitting }) => (
           <form onSubmit={handleSubmit}>
+            // Reminder text
             <Field
               name="text"
             >
@@ -45,6 +49,7 @@ const ReminderForm = () => {
                 </div>
               )}
             </Field>
+            // Reminder date
             <Field
               name="date"
             >
@@ -58,6 +63,7 @@ const ReminderForm = () => {
                 </div>
               )}
             </Field>
+            // Reminder time
             <Field
               name="time"
             >

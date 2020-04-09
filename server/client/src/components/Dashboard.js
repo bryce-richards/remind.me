@@ -5,6 +5,7 @@ import ReminderList from './ReminderList';
 import { getReminders } from '../actions';
 
 const Dashboard = () => {
+  // upon load, fetch reminders for current user
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getReminders());

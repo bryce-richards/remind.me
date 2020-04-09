@@ -9,11 +9,7 @@ import reducers from './reducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// store = {
-//   auth: {},
-//   reminders: []
-// }
-
+// intiialize with jwt if available
 const store = createStore(
   reducers,
   {

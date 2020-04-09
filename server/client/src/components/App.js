@@ -10,6 +10,7 @@ import SignOut from './auth/SignOut';
 import ReminderForm from './ReminderForm';
 import { getUser } from '../actions';
 
+// upon load, fetch current user
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {

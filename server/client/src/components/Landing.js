@@ -1,5 +1,6 @@
 import React from 'react';
 
+// landing page when initially loaded
 const Landing = () => {
   return (
     <div>

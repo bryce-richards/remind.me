@@ -4,15 +4,20 @@ import moment from 'moment';
 import { updateReminder, deleteReminder } from '../actions';
 
 const formatDate = date => {
+  // format date as string
   return moment(date).format("dddd, MMMM Do YYYY, h:mm A");
 };
 
 const ReminderItem = ({ reminder }) => {
   const dispatch = useDispatch();
+  // store initial values
   const reminderText = reminder.text;
+  // break stored date into date value
   const reminderDate = moment(reminder.due).format("YYYY-MM-DD");
+  // break stored date into time value
   const reminderTime = moment(reminder.due).format("HH:mm");
 
+  // initialize local state with reminder values
   const [edit, setEdit] = useState(false);
   const [text, setText] = useState(reminderText);
   const [date, setDate] = useState(reminderDate);
@@ -23,10 +28,12 @@ const ReminderItem = ({ reminder }) => {
   };
 
   const handleDelete = () => {
+    // trigger reminder delete
     dispatch(deleteReminder(reminder._id));
   };
 
   const handleCancel = () => {
+    // reset to initial values
     setText(reminderText);
     setDate(reminderDate);
     setTime(reminderTime);
@@ -40,7 +47,7 @@ const ReminderItem = ({ reminder }) => {
       date,
       time
     };
-
+    // trigger reminder updated
     dispatch(updateReminder(updated));
     setEdit(false);
   };
@@ -48,7 +55,10 @@ const ReminderItem = ({ reminder }) => {
   return (
     <div>
       {
+        // if item is in edit mode
         edit ? (
+          // render inputs
+          // set local state values upon each change
           <div>
             <input 
               type="text" 
@@ -83,6 +93,7 @@ const ReminderItem = ({ reminder }) => {
             </button>
           </div>
         ) : (
+          // if not in edit mode, display reminder data
           <div>
             <h5 className="title">{reminder.text}</h5>
             <p>{formatDate(reminder.due)}</p>
