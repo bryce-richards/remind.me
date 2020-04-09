@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+// only use dotenv if not in production environment
 (require('dotenv').config({ silent: process.env.NODE_ENV === 'production' }));
 
 const MONGO_URI = process.env.MONGO_URI;
