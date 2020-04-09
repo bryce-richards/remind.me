@@ -9,11 +9,11 @@
     },
     "scripts": {
         "load": "cd client && npm install && npm run build",
-        "server": "nodemon index.js --prefix server",
+        "server": "npm dev --prefix server",
         "client": "npm start --prefix client",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
         "heroku-postbuild": "cd client && npm install && npm run build",
-        "start": "node index.js --prefix server"
+        "start": "npm start --prefix server"
     },
     "repository": {
         "type": "git",
