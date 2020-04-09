@@ -36,12 +36,15 @@ const Header = () => {
       <nav>
         <div className="nav-wrapper">
           <Link 
-            className="brand-logo" 
+            className="brand-logo left" 
+            style={{marginLeft: "24px"}}
             to={token ? '/dashboard' : '/'}
           >
             Remind.me
           </Link>
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
+          <ul
+            className="right"
+            style={{marginRight: "24px"}}>
             {renderLinks()}
           </ul>
         </div>

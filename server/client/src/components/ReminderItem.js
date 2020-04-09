@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
-import { getReminders, updateReminder, deleteReminder } from '../actions';
+import { updateReminder, deleteReminder } from '../actions';
 
 const formatDate = date => {
-  return moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a")
+  return moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
 };
 
 const ReminderItem = ({ reminder }) => {
@@ -34,14 +34,15 @@ const ReminderItem = ({ reminder }) => {
   };
 
   const handleSave = () => {
-    setEdit(false);
     const updated = {
       id: reminder._id,
-      text: text,
-      date: date,
-      time: time
+      text,
+      date,
+      time
     };
+
     dispatch(updateReminder(updated));
+    setEdit(false);
   };
 
   return (
@@ -62,31 +63,45 @@ const ReminderItem = ({ reminder }) => {
               type="time" 
               value={time} 
               onChange={e => setTime(e.target.value)}/>
-            <a className="waves-effect waves-light btn-flat" onClick={handleSave}>
+            <button
+              type="button"
+              className="waves-effect waves-light btn-flat" 
+              onClick={handleSave}
+              disabled={!text || !date || !time}>
               <i className="material-icons">
                 save
               </i>
-            </a>
-            <a className="waves-effect waves-light btn-flat" onClick={handleCancel}>
+            </button>
+            <button
+              type="button"
+              className="waves-effect waves-light btn-flat" 
+              onClick={handleCancel}
+              disabled={!text || !date || !time}>
               <i className="material-icons">
                 cancel
               </i>
-            </a>
+            </button>
           </div>
         ) : (
           <div>
             <h5 className="title">{reminder.text}</h5>
             <p>{formatDate(reminder.due)}</p>
-            <a className="waves-effect waves-light btn-flat" onClick={handleEdit}>
+            <button
+              type="button"
+              className="waves-effect waves-light btn-flat" 
+              onClick={handleEdit}>
               <i className="material-icons">
                 edit
               </i>
-            </a>
-            <a className="waves-effect waves-light btn-flat" onClick={handleDelete}>
+            </button>
+            <button
+              type="button"
+              className="waves-effect waves-light btn-flat" 
+              onClick={handleDelete}>
               <i className="material-icons">
                 delete_forever
               </i>
-            </a>
+            </button>
           </div>
         )
       }

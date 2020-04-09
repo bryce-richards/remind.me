@@ -15,7 +15,7 @@ const ReminderForm = () => {
   };
 
   return (
-    <div>
+    <div style={{margin: "0 auto 0 auto", width: "70%"}}>
       <Form
         onSubmit={onFormSubmit}
         validate={values => {

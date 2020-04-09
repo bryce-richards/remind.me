@@ -1,22 +1,17 @@
 import React, { useEffect } from 'react';
 import requireAuth from './requireAuth';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import ReminderList from './ReminderList';
-import { getUser } from '../actions';
+import { getReminders } from '../actions';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getUser());
+    dispatch(getReminders());
   });
 
-  const firstName = useSelector(state => state.auth.firstName);
-
   return (
-    <div>
-      <h3>
-      { firstName ? `${firstName}'s Reminders` : '' }
-      </h3>
+    <div style={{margin: "0 auto 0 auto", width: "70%"}}>
       <ReminderList />
     </div>
   );

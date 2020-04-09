@@ -18,7 +18,7 @@ const authRoutes = require('./routes/authRoutes');
 const reminderRoutes = require('./routes/reminderRoutes');
 
 // Database
-mongoose.connect(MONGO_URI, { useNewUrlParser: true });
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false });
 
 // App
 const app = express();

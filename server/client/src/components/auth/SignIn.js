@@ -16,7 +16,7 @@ const SignIn = () => {
   };
 
   return (
-    <div>
+    <div style={{margin: "0 auto 0 auto", width: "50%"}}>
       <Form
         onSubmit={onFormSubmit}
         validate={values => {

@@ -89,6 +89,18 @@ export const createReminder = (formProps, callback) => async dispatch => {
   }
 };
 
+export const updateReminder = reminder => async dispatch => {
+  try {
+    const res = await axios.put('/api/reminders', reminder, {
+      headers: { authorization: getToken() }
+    });
+
+    dispatch({ type: REMINDER_UPDATED, payload: res.data });
+  } catch (err) {
+    dispatch({ type: ERROR_RECEIVED, payload: 'Could not update reminder' });
+  }
+};
+
 export const deleteReminder = id => async dispatch => {
   try {
     const res = await axios.delete('/api/reminders', {
@@ -99,18 +111,5 @@ export const deleteReminder = id => async dispatch => {
     dispatch({ type: REMINDER_DELETED, payload: id });
   } catch (err) {
     dispatch({ type: ERROR_RECEIVED, payload: 'Could not delete reminder' });
-  }
-};
-
-export const updateReminder = (formProps, callback) => async dispatch => {
-  try {
-    const res = await axios.put('/api/reminders', formProps, {
-      headers: { authorization: getToken() }
-    });
-
-    dispatch({ type: REMINDER_CREATED, payload: res.data });
-    callback();
-  } catch (err) {
-    dispatch({ type: ERROR_RECEIVED, payload: 'Could not create reminder' });
   }
 };

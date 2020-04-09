@@ -8,20 +8,28 @@ import SignUp from './auth/SignUp';
 import SignIn from './auth/SignIn';
 import SignOut from './auth/SignOut';
 import ReminderForm from './ReminderForm';
+import { getUser } from '../actions';
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUser());
+  });
+
   return (
     <div>
       <BrowserRouter>
-        <Header />
-        <div className="container" style={{marginTop: "24px"}}>
+        <nav>
+          <Header />
+        </nav>
+        <main className="container" style={{marginTop: "24px"}}>
           <Route exact path="/" component={Landing} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/signout" component={SignOut} />
           <Route exact path="/reminders/new" component={ReminderForm} />
-        </div>
+        </main>
       </BrowserRouter>
     </div>
   )

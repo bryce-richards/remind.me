@@ -27,34 +27,29 @@ exports.createReminder = async function(req, res) {
   res.send(reminder);
 };
 
+exports.updateReminder = async function(req, res) {
+  const userId = req.user;
+  const reminderId = req.body.id;
+  const { text, date, time } = req.body;
+  const combined = moment(date + " " + time).utc();
+
+  const updated = await Reminder.findOneAndUpdate(
+    { _id: reminderId, _user: userId }, 
+    { text, due: combined },
+    { new: true }
+  );
+
+  res.send(updated);
+};
+
 exports.deleteReminder = async function(req, res) {
-  console.log(req.query);
   const userId = req.user._id;
   const reminderId = req.query.id;
 
-  const deleted = await Reminder.deleteOne({
+  const deleted = await Reminder.findOneAndDelete({
     _id: reminderId,
     _user: userId
   });
 
-  res.send({ deleted });
-};
-
-exports.updateReminder = async function(req, res) {
-  const { id } = req.user;
-  const { _id, text, date } = req.body;
-
-  const due = moment(date).utc();
-
-  const updated = await Reminder.updateOne(
-    {
-      _id,
-      _user: id
-    }, {
-      text,
-      due
-    }
-  );
-
-  res.send(updated);
+  res.send(deleted);
 };

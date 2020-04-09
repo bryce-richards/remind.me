@@ -19,14 +19,14 @@ const reminders = (state = INITIAL_STATE, action) => {
     case REMINDER_DELETED:
       return _.orderBy(
         _.filter(state, reminder => (
-            reminder._id !== action.id
+            reminder._id !== action.payload
         )), 
       ['due']);
     case REMINDER_UPDATED:
       return _.sortBy(
         _.map(state, reminder => (
-          reminder._id === action.id ?
-          { ...reminder, ...action.payload } :
+          reminder._id === action.payload._id ?
+          action.payload :
           reminder
         )),
       ['due']);
