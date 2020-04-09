@@ -7,7 +7,6 @@ const passport = require('passport');
 
 // only use dotenv if not in production environment
 (require('dotenv').config({ 
-  path: __dirname + '/.env',
   silent: process.env.NODE_ENV === 'production' 
 }));
 

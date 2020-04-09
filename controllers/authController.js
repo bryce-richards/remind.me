@@ -44,7 +44,7 @@ exports.signUp = (req, res, next) => {
     // save new User and send back
     user.save(function(err) {
       if (err) { return next(err); }
-
+      
       res.send({ 
         firstName,
         token: userToken(user) 
