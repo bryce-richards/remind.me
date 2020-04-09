@@ -4,11 +4,11 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "load": "npm install --prefix client && npm run build --prefix client",
+        "load": "cd client && npm install && npm run build",
         "server": "nodemon index.js --prefix server",
         "client": "npm start --prefix client",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
-        "heroku-postbuild": "npm install --prefix client && npm run build --prefix client",
+        "heroku-postbuild": "cd client && npm install && npm run build",
         "start": "node index.js"
     },
     "repository": {
