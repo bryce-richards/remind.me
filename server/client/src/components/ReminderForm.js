@@ -37,7 +37,6 @@ const ReminderForm = () => {
         }}
         render={({ handleSubmit, submitting }) => (
           <form onSubmit={handleSubmit}>
-            // Reminder text
             <Field
               name="text"
             >
@@ -49,7 +48,6 @@ const ReminderForm = () => {
                 </div>
               )}
             </Field>
-            // Reminder date
             <Field
               name="date"
             >
@@ -63,7 +61,6 @@ const ReminderForm = () => {
                 </div>
               )}
             </Field>
-            // Reminder time
             <Field
               name="time"
             >
