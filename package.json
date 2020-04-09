@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
+    "engines": {
+        "npm": "6.13.4",
+        "node": "12.12.0"
+    },
     "scripts": {
         "load": "cd client && npm install && npm run build",
         "server": "nodemon index.js --prefix server",
