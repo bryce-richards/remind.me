@@ -1,12 +1,11 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { signIn } from '../../actions';
 import { validateEmail } from '../../utils/helpers';
 
 const SignIn = () => {
-  const errorMessage = useSelector(state => state.auth.error);
   const dispatch = useDispatch();
   const history = useHistory();
   // trigger user sign in upon form submit
@@ -76,7 +75,6 @@ const SignIn = () => {
           </form>
         )}
       />
-      <div>{errorMessage}</div>
     </div>
   )
 }

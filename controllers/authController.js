@@ -14,7 +14,7 @@ const userToken = (user) => {
   return jwt.encode({ sub: user.id, iat: timestamp }, SECRET);
 };
 
-exports.getUser = (req, res) => {
+exports.signIn = (req, res) => {
   const { firstName } = req.user;
   // send user's first name and jwt
   res.send({ 
