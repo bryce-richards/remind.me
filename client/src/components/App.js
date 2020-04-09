@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React  from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import Header from './Header';
 import Landing from './Landing';
 import Dashboard from './Dashboard';
@@ -8,15 +7,9 @@ import SignUp from './auth/SignUp';
 import SignIn from './auth/SignIn';
 import SignOut from './auth/SignOut';
 import ReminderForm from './ReminderForm';
-import { getUser } from '../actions';
 
 // upon load, fetch current user
 const App = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUser());
-  });
-
   return (
     <div>
       <BrowserRouter>

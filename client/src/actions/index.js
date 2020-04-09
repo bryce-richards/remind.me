@@ -4,7 +4,6 @@ import {
   USER_SIGNED_UP,
   USER_SIGNED_IN,
   USER_SIGNED_OUT,
-  USER_FETCHED,
   REMINDER_CREATED,
   REMINDER_DELETED,
   REMINDER_UPDATED,
@@ -17,21 +16,6 @@ import {
 const getToken = () => {
   // return locally stored token
   return localStorage.getItem('token');
-};
-
-// api call to fetch user data
-// send user data to auth reducer
-export const getUser = () => async dispatch => {
-  try {
-    const res = await axios.get('/auth/user', {
-      headers: { authorization: getToken() }
-    });
-    const { firstName } = res.data;
-
-    dispatch({ type: USER_FETCHED, payload: firstName });
-  } catch (err) {
-    dispatch({ type: ERROR_RECEIVED, payload: ''});
-  }
 };
 
 // api call to sign up new user
