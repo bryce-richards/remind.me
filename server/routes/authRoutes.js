@@ -1,11 +1,14 @@
-const authController = require('../controllers/authController');
+const express = require('express');
 const passport = require('passport');
-const requireAuth = passport.authenticate('local', { session: false });
+const authController = require('../controllers/authController');
 
-module.exports = app => {
-  app.get('/auth/user', authController.getUser);
+const router = express.Router();
 
-  app.post('/auth/signin', requireAuth, authController.signIn);
-  
-  app.post('/auth/signup', authController.signUp);
-};
+// route to get basic user info, use jwt strategy
+router.get('/user', passport.authenticate('jwt', { session: false }), authController.getUser);
+// route to sign in existing user, use local strategy
+router.post('/signin', passport.authenticate('local', { session: false }), authController.getUser);
+// route to sign up new user
+router.post('/signup', authController.signUp);
+
+module.exports = router;

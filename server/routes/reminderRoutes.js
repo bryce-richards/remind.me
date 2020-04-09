@@ -1,13 +1,18 @@
-const passport = require('passport');
+const express = require('express');
 const reminderController = require('../controllers/reminderController');
-const requireAuth = passport.authenticate('local', { session: false });
 
-module.exports = app => {
-  app.post('/api/reminders', requireAuth, reminderController.createReminder);
+const router = express.Router();
 
-  app.get('/api/reminders', requireAuth, reminderController.getReminders);
+// route to create a new reminder
+router.post('/reminders', reminderController.createReminder);
 
-  app.delete('/api/reminders/:reminder_id', requireAuth, reminderController.deleteReminder);
+// route to fetch all reminders for current user
+router.get('/reminders', reminderController.getReminders);
 
-  app.put('/api/reminders/:reminder_id', requireAuth, reminderController.updateReminder);
-};
+// route to delete a given reminder
+router.delete('/reminders/', reminderController.deleteReminder);
+
+// route to update a given reminder
+router.put('/reminders/', reminderController.updateReminder);
+
+module.exports = router;

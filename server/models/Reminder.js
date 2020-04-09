@@ -14,12 +14,15 @@ const reminderSchema = new Schema({
   _user: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
+// check if due datetime matches current datetime
 reminderSchema.methods.requiresNotification = function(date) {
-  return moment(date).utc() === this.due;
+  const now = moment(date).format("dddd, MMMM Do YYYY, h:mm A");
+  const due = moment(this.due).format("dddd, MMMM Do YYYY, h:mm A");
+  return now === due;
 };
 
+// method run by cron job to check if reminder is due
 reminderSchema.statics.sendNotifications = function(callback) {
-  // now
   const searchDate = new Date();
   Reminder
     .find()
@@ -27,7 +30,7 @@ reminderSchema.statics.sendNotifications = function(callback) {
       reminders = reminders.filter(function(reminder) {
         return reminder.requiresNotification(searchDate);
       });
-
+      // if reminder is due, send notifications
       if (reminders.length > 0) {
         sendNotifications(reminders);
       }
@@ -36,36 +39,32 @@ reminderSchema.statics.sendNotifications = function(callback) {
     function sendNotifications(reminders) {
         const client = new Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
         reminders.forEach(function(reminder) {
-            // Create options to send the message
-            const options = {
-                to: `+ ${reminder.phone}`,
-                from: TWILIO_PHONE_NUMBER,
-                /* eslint-disable max-len */
-                body: `${reminder.text}`,
-                /* eslint-enable max-len */
-            };
+          const { phone, text } = reminder;
+          // generate message data
+          const options = {
+            to: `+ ${phone}`,
+            from: TWILIO_PHONE_NUMBER,
+            body: `${text}`,
+          };
 
-            // Send the message!
-            client.messages.create(options, function(err, response) {
-                if (err) {
-                    // Just log it for now
-                    console.error(err);
-                } else {
-                    // Log the last few digits of a phone number
-                    let masked = reminder.phone.substr(0,
-                        reminder.phone.length - 5);
-                    masked += '*****';
-                    console.log(`Message sent to ${masked}`);
-                }
-            });
+          // send sms message
+          client.messages.create(options, function(err, res) {
+              if (err) {
+                  console.error(err);
+              } else {
+                  // log last 4 digits of phone number
+                  const masked = '******' + phone.substr(phone.length - 4);
+                  console.log(`Message sent to ${masked}`);
+              }
+          });
         });
 
-        // Don't wait on success/failure, just indicate all messages have been
-        // queued for delivery
+        // all messages have been queued for delivery
         if (callback) {
           callback.call();
         }
     }
 };
 
-module.exports = mongoose.model('reminder', reminderSchema);
+const Reminder = mongoose.model('reminder', reminderSchema);
+module.exports = Reminder;
