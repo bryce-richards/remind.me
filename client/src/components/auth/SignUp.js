@@ -115,7 +115,7 @@ const SignUp = () => {
               {({ input }) => (
                 <div className="row">
                   <div className="input-field col s6">
-                    <label for="phone">Phone (to receive SMS)</label>
+                    <label for="phone" className="active">Phone (to receive SMS)</label>
                     <input {...input} 
                       id="phone"
                       type="tel" 
