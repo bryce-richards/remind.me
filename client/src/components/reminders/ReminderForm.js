@@ -3,8 +3,8 @@ import { Form, Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createReminder } from '../actions';
-import requireAuth from './requireAuth';
+import { createReminder } from '../../actions';
+import requireAuth from '../requireAuth';
 
 const ReminderForm = () => {
   const dispatch = useDispatch();

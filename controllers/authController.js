@@ -15,10 +15,11 @@ const userToken = (user) => {
 };
 
 exports.signIn = (req, res) => {
-  const { firstName } = req.user;
+  const { firstName, phone } = req.user;
   // send user's first name and jwt
   res.send({ 
     firstName,
+    phone,
     token: userToken(req.user)
   });
 };
@@ -27,7 +28,7 @@ exports.signIn = (req, res) => {
 exports.signUp = (req, res, next) => {
   const { firstName, email, password, phone } = req.body;
   const phoneNumber = formatPhone(phone);
-
+  
   User.findOne({ email: email }, (err, existingUser) => {
     if (err) { return next(err); }
     // check if email is already registered
@@ -47,6 +48,7 @@ exports.signUp = (req, res, next) => {
       
       res.send({ 
         firstName,
+        phone,
         token: userToken(user) 
       });
     });

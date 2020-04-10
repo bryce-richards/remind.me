@@ -8,15 +8,16 @@ import {
 const INITIAL_STATE = {
   token: '',
   error: '',
-  firstName: ''
+  firstName: '',
+  phone: ''
 };
 
 const auth = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case USER_SIGNED_UP:
     case USER_SIGNED_IN:
-      // update token with jwt, update user's name
-      return { token: action.payload.token, error: '', firstName: action.payload.firstName };
+      // update token with jwt, update user's name and phone
+      return { token: action.payload.token, error: '', firstName: action.payload.firstName, phone: action.payload.phone };
     case USER_SIGNED_OUT:
       // clear out auth data
       return { token: action.payload, error: '', firstName: '' };

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import requireAuth from './requireAuth';
 import { useDispatch } from 'react-redux';
-import ReminderList from './ReminderList';
+import ReminderList from './reminders/ReminderList';
 import { getReminders } from '../actions';
 
 const Dashboard = () => {

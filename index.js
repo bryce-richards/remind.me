@@ -22,6 +22,7 @@ const scheduler = require('./services/scheduler');
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
+const verifyRoutes = require('./routes/verifyRoutes');
 const reminderRoutes = require('./routes/reminderRoutes');
 
 // Database
@@ -34,6 +35,7 @@ app.use(cors());
 app.use(bodyParser.json({ type: '*/*' }));
 
 app.use('/auth', authRoutes);
+app.use('/verify', verifyRoutes);
 // authenticate api routes with jwt
 app.use('/api', passport.authenticate('jwt', { session : false }), reminderRoutes);
 

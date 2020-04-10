@@ -6,9 +6,8 @@ import Dashboard from './Dashboard';
 import SignUp from './auth/SignUp';
 import SignIn from './auth/SignIn';
 import SignOut from './auth/SignOut';
-import ReminderForm from './ReminderForm';
+import ReminderForm from './reminders/ReminderForm';
 
-// upon load, fetch current user
 const App = () => {
   return (
     <div>

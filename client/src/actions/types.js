@@ -7,4 +7,7 @@ export const REMINDER_DELETED = 'reminder/deleted';
 export const REMINDER_UPDATED = 'reminder/updated';
 export const REMINDERS_FETCHED = 'reminder/fetched';
 
+export const CODE_SENT = 'verify/sent';
+export const CODE_VERIFIED = 'verify/verified';
+
 export const ERROR_RECEIVED = 'error/received';

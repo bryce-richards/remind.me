@@ -8,7 +8,9 @@ import {
   REMINDER_DELETED,
   REMINDER_UPDATED,
   REMINDERS_FETCHED,
-  ERROR_RECEIVED
+  ERROR_RECEIVED,
+  CODE_SENT,
+  CODE_VERIFIED
 } from './types';
 
 // NOTE: all jwt routes must include the authorization header with the stored token
@@ -20,9 +22,10 @@ const getToken = () => {
 
 // api call to sign up new user
 // send new user data to auth reducer
-export const signUp = (formProps, callback) => async dispatch => {
+export const signUp = ({ formProps, phone }, callback) => async dispatch => {
   try {
-    const res = await axios.post('/auth/signup', formProps);
+    const { firstName, email, password } = formProps;
+    const res = await axios.post('/auth/signup', { firstName, email, password, phone });
 
     dispatch({ type: USER_SIGNED_UP, payload: res.data });
     localStorage.setItem('token', res.data.token);
@@ -56,6 +59,28 @@ export const signOut = callback => {
     type: USER_SIGNED_OUT,
     payload: ''
   };
+};
+
+export const requestCode = (phone, callback) => async dispatch => {
+  try {
+    const res = await axios.post('/verify/phone/new', { phone });
+
+    dispatch({ type: CODE_SENT, payload: res.data });
+    callback();
+  } catch (err) {
+    dispatch({ type: ERROR_RECEIVED, payload: '' });
+  }
+};
+
+export const checkCode = ({ phone, code }, callback) => async dispatch => {
+  try {
+    const res = await axios.post('/verify/phone', { phone, code });
+
+    dispatch({ type: CODE_VERIFIED, payload: res.data });
+    callback();
+  } catch (err) {
+    dispatch({ type: ERROR_RECEIVED, payload: '' });
+  }
 };
 
 // api call to fetch all reminders for current user

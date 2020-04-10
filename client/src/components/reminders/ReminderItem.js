@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
-import { updateReminder, deleteReminder } from '../actions';
+import { updateReminder, deleteReminder } from '../../actions';
 
 const formatDate = date => {
   // format date as string

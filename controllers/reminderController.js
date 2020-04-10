@@ -1,5 +1,4 @@
 const Reminder = require('../models/Reminder');
-const moment = require('moment');
 
 exports.getReminders = async function (req, res) {
   const id = req.user._id;

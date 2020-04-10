@@ -1,16 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Field } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { signUp } from '../../actions';
 import { validateEmail, validatePhone } from '../../utils/helpers';
+import { requestCode, checkCode } from '../../actions';
 
 const SignUp = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [phone, setPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [code, setCode] = useState('');
+  const [requested, setRequested] = useState(false);
+  const [verified, setVerified] = useState(false);
+
+  const handleCodeRequest = () => {
+    if (validatePhone(phone)) {
+      setPhoneError('');
+      dispatch(requestCode(phone, () => {
+        setRequested(true);
+      }));
+    } else {
+      setPhoneError('Invalid phone number');
+    }
+  };
+
+  const handleCodeSubmit = () => {
+    dispatch(checkCode({ phone, code }, () => {
+      setVerified(true);
+    }));
+  };
+
   // trigger user sign in upon form submit
   const onFormSubmit = formProps => {
-    dispatch(signUp(formProps, () => {
+    dispatch(signUp({ formProps, phone }, () => {
       // if successful, navigate to dashboard
       history.push('/dashboard');
     }));
@@ -35,11 +59,6 @@ const SignUp = () => {
           } else if (values.confirm !== values.password) {
             errors.confirm = 'Password must match';
           }
-          if (!values.phone) {
-            errors.phone = 'Required';
-          } else if (!validatePhone(values.phone)) {
-            errors.phone = 'Not a valid phone number';
-          }
           return errors
         }}
         render={({ handleSubmit, form, submitting, pristine }) => (
@@ -53,6 +72,7 @@ const SignUp = () => {
                 </div>
               )}
             </Field>
+
             <Field
               name="email"
             >
@@ -64,6 +84,7 @@ const SignUp = () => {
                 </div>
               )}
             </Field>
+
             <Field
               name="password"
             >
@@ -75,6 +96,7 @@ const SignUp = () => {
                 </div>
               )}
             </Field>
+
             <Field
               name="confirm"
             >
@@ -86,27 +108,71 @@ const SignUp = () => {
                 </div>
               )}
             </Field>
+
             <Field
               name="phone"
             >
-              {({ input, meta }) => (
-                <div>
-                  <label>Phone (to receive SMS message)</label>
-                  <input {...input} type="tel" placeholder="555-555-5555" />
-                  {meta.error && meta.touched && <span>{meta.error}</span>}
+              {({ input }) => (
+                <div className="row">
+                  <div className="input-field col s6">
+                    <label for="phone">Phone (to receive SMS)</label>
+                    <input {...input} 
+                      id="phone"
+                      type="tel" 
+                      value={phone}
+                      placeholder="555-555-5555" 
+                      onChange={e => setPhone(e.target.value)}
+                      disabled={verified} />
+                      <span>{phoneError}</span>
+                  </div>
+                  <div className="input-field col s6">
+                    <button
+                      type="button"
+                      className="waves-effect waves-light btn-small"
+                      onClick={handleCodeRequest}
+                      disabled={verified}>
+                      Request Code
+                    </button>
+                  </div>
+                </div>
+              )}
+            </Field>
+
+            <Field
+              name="verification"
+            >
+              {({ input }) => (
+                <div className="row">
+                  <div className="input-field col s6">
+                  <label for="verification">Verification Code</label>
+                    <input {...input} 
+                      id="verification"
+                      type="text" 
+                      value={code}
+                      onChange={e => setCode(e.target.value)}/>
+                  </div>
+                  <div className="input-field col s6">
+                    <button
+                      type="button"
+                      className="waves-effect waves-light btn-small"
+                      onClick={handleCodeSubmit}
+                      disabled={!requested || verified}>
+                      Verify Code
+                    </button>
+                  </div>
                 </div>
               )}
             </Field>
             <div className="buttons">
               <button 
                 type="submit" 
-                className="waves-effect waves-light btn" 
-                disabled={submitting}>
-                Submit
+                className="waves-effect waves-light btn-small" 
+                disabled={!verified}>
+                Finish
               </button>
               <button
                 type="button"
-                className="waves-effect waves-light btn-flat"
+                className="waves-effect waves-light btn-small btn-flat"
                 onClick={form.reset}
                 disabled={submitting || pristine}
               >
