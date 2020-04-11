@@ -26,7 +26,11 @@ const verifyRoutes = require('./routes/verifyRoutes');
 const reminderRoutes = require('./routes/reminderRoutes');
 
 // Database
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false });
+mongoose.connect(MONGO_URI, { 
+  useNewUrlParser: true, 
+  useFindAndModify: false,
+  useUnifiedTopology: true
+});
 
 // App
 const app = express();
